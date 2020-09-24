@@ -25,7 +25,7 @@ for i in range(steps_of_time_number):
             for test in pool:
                 if unit != test:
                     if unit.distance(test) < 20:
-
+                        pass
 
             if round(unit.xcor(), 5)>=300 or round(unit.xcor(), 5)<=-300 or round(unit.ycor(), 5)>=300 or round(unit.ycor(), 5)<=-300:
                     d.update({str(unit) : {'orientation' : str(int(d[str(unit)]['orientation'])*(-1)), 'angle' : angle}})
