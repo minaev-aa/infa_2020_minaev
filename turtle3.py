@@ -1,2 +1,2 @@
 import turtle
-turtle.forward(10)
+turtle.forward(100)
