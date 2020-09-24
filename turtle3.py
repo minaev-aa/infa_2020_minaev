@@ -4,7 +4,7 @@ import turtle
 
 number_of_turtles = 25
 steps_of_time_number = 100
-step = 3
+step = 10
 d = {}
 
 pool = [turtle.Turtle(shape='circle') for i in range(number_of_turtles)]
@@ -20,12 +20,12 @@ for unit in pool:
 k = 1
 for i in range(steps_of_time_number):
     for unit in pool:
-        if k<len(pool):
+        if k<=len(pool):
             if round(unit.xcor(), 5)>=300 or round(unit.xcor(), 5)<=-300 or round(unit.ycor(), 5)>=300 or round(unit.ycor(), 5)<=-300:
-                    d.update({str(unit) : {'orientation':'1','num': str(i)}str(int('1')*(-1))})
-            if d[str(unit)] == '1':
+                    d.update({str(unit) : {'orientation' : str(int(d[str(unit)]['orientation'])*(-1)), 'num' : str(i)}})
+            if d[str(unit)]['orientation'] == '1':
                 unit.forward(step)
-            if d[str(unit)] == '-1':
+            if d[str(unit)]['orientation'] == '-1':
                 unit.forward(-1*step)
             k = k + 1
         else:
