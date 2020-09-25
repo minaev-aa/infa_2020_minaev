@@ -35,9 +35,9 @@ for i in range(steps_of_time_number):
                         x2 = round(test.xcor(), 5)
                         y1 = round(unit.ycor(), 5)
                         y2 = round(test.ycor(), 5)
-                        mod = sqrt((x2 - x1)**2 + (y2 - y1)**2)
+                        mod = sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2)
                         alpha = degrees(acos((y2 - y1)/mod))
-                        beta = alpha = degrees(acos((x2 - x1)/mod))
+                        beta = alpha = degrees(acos((x2 - x1) / mod))
                         if alpha > 90:
                             n += 1
                             alpha = 180 - alpha
