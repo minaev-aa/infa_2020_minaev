@@ -1,3 +1,2 @@
 # infa_2020_minaev
-test1
-test2
+For lab3.1 need: pip install pygame==2.0.0.dev12
