@@ -165,7 +165,6 @@ array3 = Cloud(win)
 
 
 manager = GameManager(win, array1, array2, array3)
-finished = False
 while run:
     clock.tick(FPS)
     for event in pygame.event.get():
