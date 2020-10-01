@@ -22,34 +22,34 @@ class GameManager:
 
     def redraw(self):
         self.game_window.fill((255, 255, 255))
-        pygame.draw.rect(self.game_window, (189, 183, 107), (0,500,600,300) )
-        pygame.draw.rect(self.game_window, (127, 255, 212), (0, 0,600,489))
-        pygame.draw.ellipse(self.game_window, (24, 114, 98), [-50, 650 , 800,400])
+        pygame.draw.rect(self.game_window, (189, 183, 107), (0, 500, 600, 300) )
+        pygame.draw.rect(self.game_window, (127, 255, 212), (0, 0, 600, 489))
+        pygame.draw.ellipse(self.game_window, (24, 114, 98), [-50, 650 , 800, 400])
         for car in self.array2:
             self.array1.set_new_color()
-            car.draw()
             self.array3.set_new_color_pos()
+            car.draw()
 
 class House:
-    def __init__(self, game_window, color):
+    def __init__(self, game_window, count, color, x, y, h, w):
         self.color = color
+        self.x = x
+        self.y = y
+        self.h = h
+        self.w = w
+        self.k = count
         self.game_window = game_window
-        self.n = [1] *5
-        for i in range(5):
+        self.n = [1] * count
+        for i in range(count):
             self.n[i] = [1] * 3
         self.draw()
 
     def draw(self):
-        try:
-            pygame.draw.rect(self.game_window, (self.color[0][0], self.color[0][1], self.color[0][2]), (20, 20,110, 500))
-            pygame.draw.rect(self.game_window, (self.color[1][0], self.color[1][1], self.color[1][2]), (150, 45, 110, 480))
-            pygame.draw.rect(self.game_window, (self.color[2][0], self.color[2][1], self.color[2][2]), (90, 100, 110, 470))
-            pygame.draw.rect(self.game_window, (self.color[3][0], self.color[3][1], self.color[3][2]), (500, 10, 90, 540))
-            pygame.draw.rect(self.game_window, (self.color[4][0], self.color[4][1], self.color[4][2]), (450, 110, 110, 480))
-        except:
-            print('Попробуйте снова')
+        for i in range(self.k):
+            pygame.draw.rect(self.game_window, (self.color[i][0], self.color[i][1], self.color[i][2]),
+                             (self.x[i], self.y[i],self.h[i], self.w[i]))
     def set_new_color(self):
-        for g in range(5):
+        for g in range(self.k):
             for o in range(3):
                 if self.color[g][o] > 252 or self.color[g][o] < 4:
                     self.n[g][o] *= -1
@@ -96,34 +96,35 @@ class Car:
                           45 + self.inc * 0.18, 40 + self.inc * 0.16), border_radius = self.type1)
 
 class Cloud:
-    def __init__(self, game_window):
-        self.surface = pygame.Surface((600,800), pygame.SRCALPHA)
-        self.x = [70,60,-70,60,150,-150,190]
-        self.y = [680,635,580,335,170,50,-30]
-        self.h = [150,152,160,270,550,600,500]
-        self.w = [30,32,40,80,120,110,120]
+    def __init__(self, game_window, count, x, y, h, w):
+        self.surface = pygame.Surface((600, 800), pygame.SRCALPHA)
+        self.x = x
+        self.y = y
+        self.h = h
+        self.w = w
+        self.k = count
         self.color1 = []
         self.color2 = []
         self.color3 = []
-        for u in range(7):
-            self.color1.append(random.randint(2,253))
-            self.color2.append(random.randint(2,253))
-            self.color3.append(random.randint(2,253))
+        for u in range(count):
+            self.color1.append(random.randint(2, 253))
+            self.color2.append(random.randint(2, 253))
+            self.color3.append(random.randint(2, 253))
         self.game_window = game_window
-        self.m = [1] *7
-        for i in range(7):
+        self.m = [1] * count
+        for i in range(count):
             self.m[i] = [1] * 3
         self.draw()
 
     def draw(self):
         self.surface = pygame.Surface((600,800), pygame.SRCALPHA)
-        for p in range(7):
-            pygame.draw.ellipse(self.surface, ( self.color1[p],  self.color2[p], self.color3[p], 30),
+        for p in range(self.k):
+            pygame.draw.ellipse(self.surface, (self.color1[p],  self.color2[p], self.color3[p], 30),
                                         [self.x[p], self.y[p], self.h[p], self.w[p]])
         self.game_window.blit(self.surface, (0,0))
 
     def set_new_color_pos(self):
-        for i in range(7):
+        for i in range(self.k):
             if self.color1[i] > 253 or self.color1[i] < 2:
                 self.m[i][0] *= -1
             if self.color2[i] > 253 or self.color2[i] < 2:
@@ -144,24 +145,26 @@ class Cloud:
 pygame.init()
 win = pygame.display.set_mode((width, height))
 
+array1 = House(win, 5, [[random.randint(2, 253), random.randint(2, 253), random.randint(2, 253)],
+                    [random.randint(2, 253), random.randint(2, 253), random.randint(2, 253)],
+                    [random.randint(2, 253), random.randint(2, 253), random.randint(2, 253)],
+                    [random.randint(2, 253), random.randint(2, 253), random.randint(2, 253)],
+                    [random.randint(2, 253), random.randint(2, 253), random.randint(0, 255)]],
+                [20, 150, 90, 500, 450], [20, 45, 100 ,10, 110], [110, 110, 110,  90, 110], [500, 480, 470, 540, 480])
 
 
-array1 = House(win, [[random.randint(2,253), random.randint(2,253), random.randint(2,253)],
-                    [random.randint(2,253), random.randint(2,253), random.randint(2,253)],
-                    [random.randint(2,253), random.randint(2,253), random.randint(2,253)],
-                    [random.randint(2,253), random.randint(2,253), random.randint(2,253)],
-                    [random.randint(2,253), random.randint(2,253), random.randint(0,255)]])
-array2 = [Car(win, -120, -45, -150, [random.randint(0,255), random.randint(0,255), random.randint(0,255)],
-                                    random.randint(0,10),random.randint(0,1)),
-          Car(win, 105,30, -100, [random.randint(0,255), random.randint(0,255), random.randint(0,255)],
-                                    random.randint(0,10),random.randint(0,1)),
-          Car(win, -300, 30, -40, [random.randint(0,255), random.randint(0,255), random.randint(0,255)],
-                                    random.randint(0,10),random.randint(0,1)),
-          Car(win, 0,-140, 0, [random.randint(0,255), random.randint(0,255), random.randint(0,255)],
-                                    random.randint(0,10),random.randint(0,1)),
-          Car(win, -250,-140, -100, [random.randint(0,255), random.randint(0,255), random.randint(0,255)],
-                                    random.randint(0,10),random.randint(0,1))]
-array3 = Cloud(win)
+array2 = [Car(win, -120, -45, -150, [random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)],
+                                    random.randint(0, 10), random.randint(0, 1)),
+          Car(win, 105,30, -100, [random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)],
+                                    random.randint(0, 10), random.randint(0, 1)),
+          Car(win, -300, 30, -40, [random.randint(0, 255), random.randint(0,255), random.randint(0, 255)],
+                                    random.randint(0, 10), random.randint(0, 1)),
+          Car(win, -33, -130, -20, [random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)],
+                                    random.randint(0, 10), random.randint(0,1)),
+          Car(win, -250, -140, -100, [random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)],
+                                    random.randint(0, 10), random.randint(0, 1))]
+array3 = Cloud(win, 7, [70, 60, -70, 60, 150, -150, 190], [680, 635, 580, 335, 170, 50, -30],
+               [150, 152, 160, 270, 550, 600, 500], [30, 32, 40, 80, 120, 110, 120])
 
 
 manager = GameManager(win, array1, array2, array3)
