@@ -8,13 +8,6 @@ width = 600
 height = 800
 amount = 1
 
-'''
-    Функция рисует зайца на экране.
-    surface - объект pygame.Surface
-    x, y - координаты левого верхнего угла изображения
-    width, height - ширина и высота изобажения
-     color - цвет, заданный в формате, подходящем для pygame.Color
-'''
 
 screen = pygame.display.set_mode((400, 400))
 
@@ -46,36 +39,56 @@ class Rabbit:
         self.h = height
         self.game_window = surface
     def __draw_body(self):
-        __body_width = self.w // 2
-        __body_height = self.h // 2
-        __body_y = self.y + __body_height // 2
-        pygame.draw.ellipse(self.game_window, self.color, (self.x - __body_width // 2, __body_y - __body_height // 2, __body_width, __body_height))
+        body_width = self.w // 2
+        body_height = self.h // 2
+        body_y = self.y + body_height // 2
+        pygame.draw.ellipse(self.game_window, self.color, (self.x - body_width // 2, body_y - body_height // 2, body_width, body_height))
 
 
     def __draw_head(self):
-        __head_size = self.h // 8
-        __y_new = self.y - __head_size // 2
-        pygame.draw.circle(self.game_window, self.color, (self.x, __y_new), __head_size)
+        head_size = self.h // 8
+        y_new = self.y - head_size // 2
+        pygame.draw.circle(self.game_window, self.color, (self.x, y_new), head_size)
 
+    def __draw_eye(self):
+        eye_height = self.h // 24
+        eye_y = self.y - self.h // 16 - eye_height // 2
+        for eye_x in (self.x - self.h // 16, self.x + self.h // 16):
+            pygame.draw.ellipse(self.game_window, (123,12,123), (eye_x - self.w // 16, eye_y - eye_height, self.w // 9, eye_height))
+
+    def __draw_arm(self):
+        eye_height = self.h // 4
+        eye_y = self.y + 1.5 * eye_height
+        for eye_x in (self.x - self.h // 9, self.x + self.h // 9):
+            pygame.draw.ellipse(self.game_window, (13,12,123), (eye_x - self.w // 12, eye_y - eye_height, self.w // 6, eye_height))
 
     def __draw_ear(self):
-        __ear_height = self.h // 3
-        __ear_y = self.y - self.h // 2 + __ear_height // 2
-        for __ear_x in (self.x - self.h // 16, self.x + self.h // 16):
-            pygame.draw.ellipse(self.game_window, self.color, (__ear_x - self.w // 16, __ear_y - __ear_height // 2, self.w // 8, __ear_height))
+        ear_height = self.h // 3
+        ear_y = self.y - self.h // 2 + ear_height // 2
+        for ear_x in (self.x - self.h // 16, self.x + self.h // 16):
+            pygame.draw.ellipse(self.game_window, self.color, (ear_x - self.w // 16, ear_y - ear_height // 2, self.w // 8, ear_height))
+
+    def __draw_mouth(self):
+        eye_height = self.h // 24
+        eye_y = self.y + self.h // 60
+        eye_x = self.x - self.h // 18
+        pygame.draw.ellipse(self.game_window, (123,12,123), (eye_x - self.w // 16, eye_y - eye_height, self.w // 3, eye_height))
 
 
     def __draw_leg(self):
-        __leg_height = self.h // 16
-        __leg_y = self.y + self.h // 2 - __leg_height // 2
-        for __leg_x in (self.x - self.w // 4, self.x + self.w // 4):
-            pygame.draw.ellipse(self.game_window, self.color, (__leg_x - self.w // 8, __leg_y - __leg_height // 2, self.w // 4, __leg_height))
+        leg_height = self.h // 16
+        leg_y = self.y + self.h // 2 - leg_height // 2
+        for leg_x in (self.x - self.w // 4, self.x + self.w // 4):
+            pygame.draw.ellipse(self.game_window, self.color, (leg_x - self.w // 8, leg_y - leg_height // 2, self.w // 4, leg_height))
 
     def draw_hare(self):
+        self.__draw_ear()
         self.__draw_body()
         self.__draw_head()
-        self.__draw_ear()
+        self.__draw_eye()
         self.__draw_leg()
+        self.__draw_mouth()
+        self.__draw_arm()
 
 Rabbit(screen, 200, 200, 200, 400, (200, 200, 200)).draw_hare()
 
