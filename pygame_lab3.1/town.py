@@ -136,11 +136,11 @@ class Cloud:
 
     def __draw(self):
         try:
-            self.surface = Surface((600,800), SRCALPHA)
+            self.sur = Surface((600,800), SRCALPHA)
             for p in range(self.k):
-                draw.ellipse(self.surface, (self.color1[p],  self.color2[p], self.color3[p], 30),
+                draw.ellipse(self.sur, (self.color1[p],  self.color2[p], self.color3[p], 30),
                                    [self.x[p], self.y[p], self.h[p], self.w[p]])
-            self.game_window.blit(self.surface, (0,0))
+            self.game_window.blit(self.sur, (0,0))
         except TypeError:
                 print('Все аргуметы должны быть числами')
                 exit()
@@ -161,7 +161,7 @@ class Cloud:
                     self.x[i] += 1
                 else:
                     self.x[i] = (-1) * self.h[i]
-                    draw.ellipse(self.surface, (self.color1[i],  self.color2[i],
+                    draw.ellipse(self.sur, (self.color1[i],  self.color2[i],
                                         self.color3[i], 80), [self.x[i], self.y[i], self.h[i], self.w[i]])
             except TypeError:
                 print('Все аргуметы должны быть числами')
@@ -191,7 +191,6 @@ array2 = [Car(win, -120, -45, -150, [randint(0, 255), randint(0, 255), randint(0
                                       randint(0, 10), randint(0, 1))]
 array3 = Cloud(win, 7, [70, 60, -70, 60, 150, -150, 190], [680, 635, 580, 335, 170, 50, -30],
                        [150, 152, 160, 270, 550, 600, 500], [30, 32, 40, 80, 120, 110, 120])
-
 
 manager = GameManager(win, array1, array2, array3)
 
