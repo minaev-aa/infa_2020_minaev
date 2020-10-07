@@ -4,6 +4,7 @@
 
 import pygame
 import random
+import sys
 from PIL import Image
 
 FPS = 60
@@ -11,7 +12,6 @@ run = True
 clock = pygame.time.Clock()
 width = 600
 height = 800
-amount = 1
 frames = []
 
 
@@ -48,8 +48,12 @@ class House:
 
     def __draw(self):
         for i in range(self.k):
-            pygame.draw.rect(self.game_window, (self.color[i][0], self.color[i][1], self.color[i][2]),
-                            (self.x[i], self.y[i],self.h[i], self.w[i]))
+            try:
+                pygame.draw.rect(self.game_window, (self.color[i][0], self.color[i][1], self.color[i][2]),
+                                (self.x[i], self.y[i],self.h[i], self.w[i]))
+            except TypeError:
+                print('Все аргуметы должны быть числами')
+                sys.exit()
 
     def set_new_color(self):
         for g in range(self.k):
@@ -73,34 +77,37 @@ class Car:
         self.draw()
 
     def draw(self):
-        pygame.draw.polygon(self.game_window, (self.color1, self.color2, self.color3),
-                          [(self.x + 250, self.y + 725),
-                          ((self.x + 500) + self.inc, self.y + 725),
-                          ((self.x + 500) + self.inc, (self.y + 675) - self.inc/5),
-                          ((self.x + 425) + 0.7 * self.inc, ((self.y + 675) - self.inc/5)),
-                          ((self.x + 425) + 0.7 * self.inc, (self.y + 625) - self.inc/2.5),
-                          ((self.x + 300) + 0.2 * self.inc, (self.y + 625) - self.inc/2.5),
-                          ((self.x + 300) + 0.2 * self.inc, (self.y + 675) - self.inc/5),
-                           (self.x + 250 , (self.y + 675) - self.inc/5)])
+        try:
+            pygame.draw.polygon(self.game_window, (self.color1, self.color2, self.color3),
+                              [(self.x + 250, self.y + 725),
+                              ((self.x + 500) + self.inc, self.y + 725),
+                              ((self.x + 500) + self.inc, (self.y + 675) - self.inc/5),
+                              ((self.x + 425) + 0.7 * self.inc, ((self.y + 675) - self.inc/5)),
+                              ((self.x + 425) + 0.7 * self.inc, (self.y + 625) - self.inc/2.5),
+                              ((self.x + 300) + 0.2 * self.inc, (self.y + 625) - self.inc/2.5),
+                              ((self.x + 300) + 0.2 * self.inc, (self.y + 675) - self.inc/5),
+                               (self.x + 250 , (self.y + 675) - self.inc/5)])
 
 
-        if self.type2 == 0:
-            pygame.draw.circle(self.game_window, (0, 0, 0), (self.x + 300 + 0.2 * self.inc,  self.y + 725), 20 + self.inc/10)
-            pygame.draw.circle(self.game_window, (0, 0, 0), (self.x + 450 + 0.8 * self.inc,  self.y + 725), 20 + self.inc/10)
-        if self.type2 == 1:
-            pygame.draw.rect(self.game_window, (0, 255, 0, 0), (self.x + 430 + 0.72 * self.inc,
-                             self.y + 705 - 0.08 * self.inc, 40 + self.inc * 0.16, 40 + self.inc * 0.16))
-            pygame.draw.rect(self.game_window, (0, 255, 0, 0), (self.x + 280 + 0.12 * self.inc,
-                             self.y + 705 - 0.08 * self.inc, 40 + self.inc * 0.16, 40 + self.inc * 0.16))
+            if self.type2 == 0:
+                pygame.draw.circle(self.game_window, (0, 0, 0), (self.x + 300 + 0.2 * self.inc,  self.y + 725), 20 + self.inc/10)
+                pygame.draw.circle(self.game_window, (0, 0, 0), (self.x + 450 + 0.8 * self.inc,  self.y + 725), 20 + self.inc/10)
+            if self.type2 == 1:
+                pygame.draw.rect(self.game_window, (0, 255, 0, 0), (self.x + 430 + 0.72 * self.inc,
+                                 self.y + 705 - 0.08 * self.inc, 40 + self.inc * 0.16, 40 + self.inc * 0.16))
+                pygame.draw.rect(self.game_window, (0, 255, 0, 0), (self.x + 280 + 0.12 * self.inc,
+                                 self.y + 705 - 0.08 * self.inc, 40 + self.inc * 0.16, 40 + self.inc * 0.16))
 
-        pygame.draw.rect(self.game_window, (117, 187, 253),
-                         (self.x + 310 +  self.inc * 0.24, self.y + 635 - self.inc * 0.36,
-                          45 + self.inc * 0.18, 40 + self.inc * 0.16), border_radius = self.type1)
+            pygame.draw.rect(self.game_window, (117, 187, 253),
+                             (self.x + 310 +  self.inc * 0.24, self.y + 635 - self.inc * 0.36,
+                              45 + self.inc * 0.18, 40 + self.inc * 0.16), border_radius = self.type1)
 
-        pygame.draw.rect(self.game_window, (117, 187, 253),
-                         (self.x + 370 + self.inc * 0.48, self.y + 635 - self.inc * 0.36,
-                          45 + self.inc * 0.18, 40 + self.inc * 0.16), border_radius = self.type1)
-
+            pygame.draw.rect(self.game_window, (117, 187, 253),
+                             (self.x + 370 + self.inc * 0.48, self.y + 635 - self.inc * 0.36,
+                              45 + self.inc * 0.18, 40 + self.inc * 0.16), border_radius = self.type1)
+        except TypeError:
+            print('Все аргуметы должны быть числами')
+            sys.exit()
 class Cloud:
     def __init__(self, game_window, count, x, y, h, w):
         self.surface = pygame.Surface((600, 800), pygame.SRCALPHA)
@@ -124,11 +131,15 @@ class Cloud:
         self.__draw()
 
     def __draw(self):
-        self.surface = pygame.Surface((600,800), pygame.SRCALPHA)
-        for p in range(self.k):
-            pygame.draw.ellipse(self.surface, (self.color1[p],  self.color2[p], self.color3[p], 30),
-                               [self.x[p], self.y[p], self.h[p], self.w[p]])
-        self.game_window.blit(self.surface, (0,0))
+        try:
+            self.surface = pygame.Surface((600,800), pygame.SRCALPHA)
+            for p in range(self.k):
+                pygame.draw.ellipse(self.surface, (self.color1[p],  self.color2[p], self.color3[p], 30),
+                                   [self.x[p], self.y[p], self.h[p], self.w[p]])
+            self.game_window.blit(self.surface, (0,0))
+        except TypeError:
+                print('Все аргуметы должны быть числами')
+                sys.exit()
 
     def set_new_color_pos(self):
         for i in range(self.k):
@@ -141,12 +152,16 @@ class Cloud:
             self.color1[i] -= self.m[i][0]
             self.color2[i] -= self.m[i][1]
             self.color3[i] -= self.m[i][2]
-            if self.x[i] < 600:
-                self.x[i] += 1
-            else:
-                self.x[i] = (-1) * self.h[i]
-                pygame.draw.ellipse(self.surface, (self.color1[i],  self.color2[i],
-                                    self.color3[i], 80), [self.x[i], self.y[i], self.h[i], self.w[i]])
+            try:
+                if self.x[i] < 600:
+                    self.x[i] += 1
+                else:
+                    self.x[i] = (-1) * self.h[i]
+                    pygame.draw.ellipse(self.surface, (self.color1[i],  self.color2[i],
+                                        self.color3[i], 80), [self.x[i], self.y[i], self.h[i], self.w[i]])
+            except TypeError:
+                print('Все аргуметы должны быть числами')
+                sys.exit()
             self.__draw()
 
 pygame.init()
