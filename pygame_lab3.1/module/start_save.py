@@ -1,12 +1,7 @@
 import pygame
 from PIL import Image
 
-
-
-
 pygame.init()
-
-
 
 def save(win, FPS, manager):
     w, h = win.get_size()

@@ -2,7 +2,7 @@
 #ONLY
 #pip install pygame==2.0.0.dev12
 import sys
-import random
+from random import randint
 import pygame
 
 sys.path.append('/infa_2020_minaev/pygame_lab3.1/module')
@@ -128,9 +128,9 @@ class Cloud:
         self.m = [1] * count
 
         for u in range(count):
-            self.color1.append(random.randint(2, 253))
-            self.color2.append(random.randint(2, 253))
-            self.color3.append(random.randint(2, 253))
+            self.color1.append(randint(2, 253))
+            self.color2.append(randint(2, 253))
+            self.color3.append(randint(2, 253))
 
         for i in range(count):
             self.m[i] = [1] * 3
@@ -172,25 +172,25 @@ class Cloud:
 
 win = pygame.display.set_mode((width, height))
 
-array1 = House(win, 5, [[random.randint(2, 253), random.randint(2, 253), random.randint(2, 253)],
-                        [random.randint(2, 253), random.randint(2, 253), random.randint(2, 253)],
-                        [random.randint(2, 253), random.randint(2, 253), random.randint(2, 253)],
-                        [random.randint(2, 253), random.randint(2, 253), random.randint(2, 253)],
-                        [random.randint(2, 253), random.randint(2, 253), random.randint(0, 255)]],
+array1 = House(win, 5, [[randint(2, 253), randint(2, 253), randint(2, 253)],
+                        [randint(2, 253), randint(2, 253), randint(2, 253)],
+                        [randint(2, 253), randint(2, 253), randint(2, 253)],
+                        [randint(2, 253), randint(2, 253), randint(2, 253)],
+                        [randint(2, 253), randint(2, 253), randint(0, 255)]],
                         [20, 150, 90, 500, 450], [20, 45, 100 ,10, 110], [110, 110, 110,  90, 110],
                         [500, 480, 470, 540, 480])
 
 
-array2 = [Car(win, -120, -45, -150, [random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)],
-                                     random.randint(0, 10), random.randint(0, 1)),
-          Car(win, 105,30, -100, [random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)],
-                                  random.randint(0, 10), random.randint(0, 1)),
-          Car(win, -300, 30, -40, [random.randint(0, 255), random.randint(0,255), random.randint(0, 255)],
-                                   random.randint(0, 10), random.randint(0, 1)),
-          Car(win, -33, -130, -20, [random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)],
-                                    random.randint(0, 10), random.randint(0,1)),
-          Car(win, -250, -140, -100, [random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)],
-                                      random.randint(0, 10), random.randint(0, 1))]
+array2 = [Car(win, -120, -45, -150, [randint(0, 255), randint(0, 255), randint(0, 255)],
+                                     randint(0, 10), randint(0, 1)),
+          Car(win, 105,30, -100, [randint(0, 255), randint(0, 255), randint(0, 255)],
+                                  randint(0, 10), randint(0, 1)),
+          Car(win, -300, 30, -40, [randint(0, 255), randint(0,255), randint(0, 255)],
+                                   randint(0, 10), randint(0, 1)),
+          Car(win, -33, -130, -20, [randint(0, 255), randint(0, 255), randint(0, 255)],
+                                    randint(0, 10), randint(0,1)),
+          Car(win, -250, -140, -100, [randint(0, 255), randint(0, 255), randint(0, 255)],
+                                      randint(0, 10), randint(0, 1))]
 array3 = Cloud(win, 7, [70, 60, -70, 60, 150, -150, 190], [680, 635, 580, 335, 170, 50, -30],
                        [150, 152, 160, 270, 550, 600, 500], [30, 32, 40, 80, 120, 110, 120])
 
