@@ -41,9 +41,9 @@ class House:
         self.n = [1] * count
         for i in range(count):
             self.n[i] = [1] * 3
-        self.draw()
+        self.__draw()
 
-    def draw(self):
+    def __draw(self):
         for i in range(self.k):
             pygame.draw.rect(self.game_window, (self.color[i][0], self.color[i][1], self.color[i][2]),
                             (self.x[i], self.y[i],self.h[i], self.w[i]))
@@ -54,7 +54,7 @@ class House:
                 if self.color[g][o] > 252 or self.color[g][o] < 4:
                     self.n[g][o] *= -1
                 self.color[g][o] -= self.n[g][o]
-                self.draw()
+                self.__draw()
 
 class Car:
     def __init__(self, game_window, start_x, start_y, increment, color_corpus, type_window, type_wheel):
@@ -71,13 +71,13 @@ class Car:
 
     def draw(self):
         pygame.draw.polygon(self.game_window, (self.color1, self.color2, self.color3),
-                           [(self.x + 250, self.y + 725),
-                           ((self.x + 500) + self.inc, self.y + 725),
-                           ((self.x + 500) + self.inc, (self.y + 675) - self.inc/5),
-                           ((self.x + 425) + 0.7 * self.inc, ((self.y + 675) - self.inc/5)),
-                           ((self.x + 425) + 0.7 * self.inc, (self.y + 625) - self.inc/2.5),
-                           ((self.x + 300) + 0.2 * self.inc, (self.y + 625) - self.inc/2.5),
-                           ((self.x + 300) + 0.2 * self.inc, (self.y + 675) - self.inc/5),
+                          [(self.x + 250, self.y + 725),
+                          ((self.x + 500) + self.inc, self.y + 725),
+                          ((self.x + 500) + self.inc, (self.y + 675) - self.inc/5),
+                          ((self.x + 425) + 0.7 * self.inc, ((self.y + 675) - self.inc/5)),
+                          ((self.x + 425) + 0.7 * self.inc, (self.y + 625) - self.inc/2.5),
+                          ((self.x + 300) + 0.2 * self.inc, (self.y + 625) - self.inc/2.5),
+                          ((self.x + 300) + 0.2 * self.inc, (self.y + 675) - self.inc/5),
                            (self.x + 250 , (self.y + 675) - self.inc/5)])
 
 
@@ -118,9 +118,9 @@ class Cloud:
         self.m = [1] * count
         for i in range(count):
             self.m[i] = [1] * 3
-        self.draw()
+        self.__draw()
 
-    def draw(self):
+    def __draw(self):
         self.surface = pygame.Surface((600,800), pygame.SRCALPHA)
         for p in range(self.k):
             pygame.draw.ellipse(self.surface, (self.color1[p],  self.color2[p], self.color3[p], 30),
@@ -144,7 +144,7 @@ class Cloud:
                 self.x[i] = (-1) * self.h[i]
                 pygame.draw.ellipse(self.surface, (self.color1[i],  self.color2[i],
                                     self.color3[i], 80), [self.x[i], self.y[i], self.h[i], self.w[i]])
-            self.draw()
+            self.__draw()
 
 pygame.init()
 win = pygame.display.set_mode((width, height))
