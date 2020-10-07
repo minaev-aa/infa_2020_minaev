@@ -1,5 +1,6 @@
-import pygame
 from PIL import Image
+import pygame
+
 
 pygame.init()
 

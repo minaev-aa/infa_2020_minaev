@@ -1,13 +1,11 @@
 #изменять цвет домиков - анимация. количества машин, цвет, форма колёс\окон -  в ручную. тучки двигаются и меняются цвета цвета - анимация
 #ONLY
 #pip install pygame==2.0.0.dev12
-import sys
+
 from random import randint
-import pygame
-
-sys.path.append('/infa_2020_minaev/pygame_lab3.1/module')
-import start_save
-
+from pygame import draw, SRCALPHA, Surface, display
+from sys import exit
+from module import start_save
 
 
 FPS = 60
@@ -25,9 +23,9 @@ class GameManager:
 
     def redraw(self):
         self.game_window.fill((255, 255, 255))
-        pygame.draw.rect(self.game_window, (189, 183, 107), (0, 500, 600, 300) )
-        pygame.draw.rect(self.game_window, (127, 255, 212), (0, 0, 600, 489))
-        pygame.draw.ellipse(self.game_window, (24, 114, 98), [-50, 650 , 800, 400])
+        draw.rect(self.game_window, (189, 183, 107), (0, 500, 600, 300) )
+        draw.rect(self.game_window, (127, 255, 212), (0, 0, 600, 489))
+        draw.ellipse(self.game_window, (24, 114, 98), [-50, 650 , 800, 400])
         for car in self.array2:
             self.array1.set_new_color()
             self.array3.set_new_color_pos()
@@ -50,11 +48,11 @@ class House:
     def __draw(self):
         for i in range(self.k):
             try:
-                pygame.draw.rect(self.game_window, (self.color[i][0], self.color[i][1], self.color[i][2]),
+                draw.rect(self.game_window, (self.color[i][0], self.color[i][1], self.color[i][2]),
                                 (self.x[i], self.y[i],self.h[i], self.w[i]))
             except TypeError:
                 print('Все аргуметы должны быть числами')
-                sys.exit()
+                exit()
 
     def set_new_color(self):
         for g in range(self.k):
@@ -79,7 +77,7 @@ class Car:
 
     def draw(self):
         try:
-            pygame.draw.polygon(self.game_window, (self.color1, self.color2, self.color3),
+            draw.polygon(self.game_window, (self.color1, self.color2, self.color3),
                               [(self.x + 250, self.y + 725),
                               ((self.x + 500) + self.inc, self.y + 725),
                               ((self.x + 500) + self.inc, (self.y + 675) - self.inc/5),
@@ -91,31 +89,31 @@ class Car:
 
 
             if self.type2 == 0:
-                pygame.draw.circle(self.game_window, (0, 0, 0), (self.x + 300 + 0.2 * self.inc,  self.y + 725), 20 + self.inc/10)
-                pygame.draw.circle(self.game_window, (0, 0, 0), (self.x + 450 + 0.8 * self.inc,  self.y + 725), 20 + self.inc/10)
+                draw.circle(self.game_window, (0, 0, 0), (self.x + 300 + 0.2 * self.inc,  self.y + 725), 20 + self.inc/10)
+                draw.circle(self.game_window, (0, 0, 0), (self.x + 450 + 0.8 * self.inc,  self.y + 725), 20 + self.inc/10)
 
             if self.type2 == 1:
-                pygame.draw.rect(self.game_window, (0, 255, 0, 0), (self.x + 430 + 0.72 * self.inc,
+                draw.rect(self.game_window, (0, 255, 0, 0), (self.x + 430 + 0.72 * self.inc,
                                  self.y + 705 - 0.08 * self.inc, 40 + self.inc * 0.16, 40 + self.inc * 0.16))
-                pygame.draw.rect(self.game_window, (0, 255, 0, 0), (self.x + 280 + 0.12 * self.inc,
+                draw.rect(self.game_window, (0, 255, 0, 0), (self.x + 280 + 0.12 * self.inc,
                                  self.y + 705 - 0.08 * self.inc, 40 + self.inc * 0.16, 40 + self.inc * 0.16))
 
 
-            pygame.draw.rect(self.game_window, (117, 187, 253),
+            draw.rect(self.game_window, (117, 187, 253),
                              (self.x + 310 +  self.inc * 0.24, self.y + 635 - self.inc * 0.36,
                               45 + self.inc * 0.18, 40 + self.inc * 0.16), border_radius = self.type1)
 
-            pygame.draw.rect(self.game_window, (117, 187, 253),
+            draw.rect(self.game_window, (117, 187, 253),
                              (self.x + 370 + self.inc * 0.48, self.y + 635 - self.inc * 0.36,
                               45 + self.inc * 0.18, 40 + self.inc * 0.16), border_radius = self.type1)
         except TypeError:
             print('Все аргуметы должны быть числами')
-            sys.exit()
+            exit()
 
 
 class Cloud:
     def __init__(self, game_window, count, x, y, h, w):
-        self.surface = pygame.Surface((600, 800), pygame.SRCALPHA)
+        self.surface = Surface((600, 800), SRCALPHA)
         self.x = x
         self.y = y
         self.h = h
@@ -138,14 +136,14 @@ class Cloud:
 
     def __draw(self):
         try:
-            self.surface = pygame.Surface((600,800), pygame.SRCALPHA)
+            self.surface = Surface((600,800), SRCALPHA)
             for p in range(self.k):
-                pygame.draw.ellipse(self.surface, (self.color1[p],  self.color2[p], self.color3[p], 30),
+                draw.ellipse(self.surface, (self.color1[p],  self.color2[p], self.color3[p], 30),
                                    [self.x[p], self.y[p], self.h[p], self.w[p]])
             self.game_window.blit(self.surface, (0,0))
         except TypeError:
                 print('Все аргуметы должны быть числами')
-                sys.exit()
+                exit()
 
     def set_new_color_pos(self):
         for i in range(self.k):
@@ -163,14 +161,14 @@ class Cloud:
                     self.x[i] += 1
                 else:
                     self.x[i] = (-1) * self.h[i]
-                    pygame.draw.ellipse(self.surface, (self.color1[i],  self.color2[i],
+                    draw.ellipse(self.surface, (self.color1[i],  self.color2[i],
                                         self.color3[i], 80), [self.x[i], self.y[i], self.h[i], self.w[i]])
             except TypeError:
                 print('Все аргуметы должны быть числами')
-                sys.exit()
+                exit()
             self.__draw()
 
-win = pygame.display.set_mode((width, height))
+win = display.set_mode((width, height))
 
 array1 = House(win, 5, [[randint(2, 253), randint(2, 253), randint(2, 253)],
                         [randint(2, 253), randint(2, 253), randint(2, 253)],
