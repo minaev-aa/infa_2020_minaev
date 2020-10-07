@@ -1,18 +1,19 @@
 #изменять цвет домиков - анимация. количества машин, цвет, форма колёс\окон -  в ручную. тучки двигаются и меняются цвета цвета - анимация
 #ONLY
 #pip install pygame==2.0.0.dev12
-
-import pygame
-import random
 import sys
-from PIL import Image
+import random
+import pygame
+
+sys.path.append('/infa_2020_minaev/pygame_lab3.1/module')
+import start_save
+
+
 
 FPS = 60
-run = True
-clock = pygame.time.Clock()
 width = 600
 height = 800
-frames = []
+
 
 
 class GameManager:
@@ -92,11 +93,13 @@ class Car:
             if self.type2 == 0:
                 pygame.draw.circle(self.game_window, (0, 0, 0), (self.x + 300 + 0.2 * self.inc,  self.y + 725), 20 + self.inc/10)
                 pygame.draw.circle(self.game_window, (0, 0, 0), (self.x + 450 + 0.8 * self.inc,  self.y + 725), 20 + self.inc/10)
+
             if self.type2 == 1:
                 pygame.draw.rect(self.game_window, (0, 255, 0, 0), (self.x + 430 + 0.72 * self.inc,
                                  self.y + 705 - 0.08 * self.inc, 40 + self.inc * 0.16, 40 + self.inc * 0.16))
                 pygame.draw.rect(self.game_window, (0, 255, 0, 0), (self.x + 280 + 0.12 * self.inc,
                                  self.y + 705 - 0.08 * self.inc, 40 + self.inc * 0.16, 40 + self.inc * 0.16))
+
 
             pygame.draw.rect(self.game_window, (117, 187, 253),
                              (self.x + 310 +  self.inc * 0.24, self.y + 635 - self.inc * 0.36,
@@ -108,6 +111,8 @@ class Car:
         except TypeError:
             print('Все аргуметы должны быть числами')
             sys.exit()
+
+
 class Cloud:
     def __init__(self, game_window, count, x, y, h, w):
         self.surface = pygame.Surface((600, 800), pygame.SRCALPHA)
@@ -119,13 +124,14 @@ class Cloud:
         self.color1 = []
         self.color2 = []
         self.color3 = []
+        self.game_window = game_window
+        self.m = [1] * count
+
         for u in range(count):
             self.color1.append(random.randint(2, 253))
             self.color2.append(random.randint(2, 253))
             self.color3.append(random.randint(2, 253))
 
-        self.game_window = game_window
-        self.m = [1] * count
         for i in range(count):
             self.m[i] = [1] * 3
         self.__draw()
@@ -164,7 +170,6 @@ class Cloud:
                 sys.exit()
             self.__draw()
 
-pygame.init()
 win = pygame.display.set_mode((width, height))
 
 array1 = House(win, 5, [[random.randint(2, 253), random.randint(2, 253), random.randint(2, 253)],
@@ -192,22 +197,4 @@ array3 = Cloud(win, 7, [70, 60, -70, 60, 150, -150, 190], [680, 635, 580, 335, 1
 
 manager = GameManager(win, array1, array2, array3)
 
-
-
-
-while run:
-    clock.tick(FPS)
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            frames[0].save('pygame_lab3.1\pic\moving_ball.gif', format = 'GIF',
-                            append_images = frames[1:],
-                            save_all = True,
-                            duration = 100, loop = 0)
-            run = False
-    manager.redraw()
-    pygame.display.flip()
-    img = pygame.image.tostring(win, "RGBA")
-    new_frame = Image.frombytes("RGBA", (600, 800), img)
-    frames.append(new_frame)
-
-pygame.quit()
+start_save.save(win, FPS, manager)
