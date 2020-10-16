@@ -3,10 +3,10 @@
 #pip install pygame==2.0.0.dev12
 
 from random import randint
-from pygame import draw, SRCALPHA, Surface, display
 from sys import exit
-from module import start_save
 
+from module import start_save
+from pygame import draw, SRCALPHA, Surface, display
 
 FPS = 60
 width = 600
@@ -123,7 +123,7 @@ class Cloud:
         self.color2 = []
         self.color3 = []
         self.game_window = game_window
-        self.m = [1] * count
+        self.mac = [1] * count
 
         for u in range(count):
             self.color1.append(randint(2, 253))
@@ -131,7 +131,7 @@ class Cloud:
             self.color3.append(randint(2, 253))
 
         for i in range(count):
-            self.m[i] = [1] * 3
+            self.mac[i] = [1] * 3
         self.__draw()
 
     def __draw(self):
@@ -148,14 +148,14 @@ class Cloud:
     def set_new_color_pos(self):
         for i in range(self.k):
             if self.color1[i] > 253 or self.color1[i] < 2:
-                self.m[i][0] *= -1
+                self.mac[i][0] *= -1
             if self.color2[i] > 253 or self.color2[i] < 2:
-                self.m[i][1] *= -1
+                self.mac[i][1] *= -1
             if self.color3[i] > 253 or self.color3[i] < 2:
-                self.m[i][2] *= -1
-            self.color1[i] -= self.m[i][0]
-            self.color2[i] -= self.m[i][1]
-            self.color3[i] -= self.m[i][2]
+                self.mac[i][2] *= -1
+            self.color1[i] -= self.mac[i][0]
+            self.color2[i] -= self.mac[i][1]
+            self.color3[i] -= self.mac[i][2]
             try:
                 if self.x[i] < 600:
                     self.x[i] += 1
