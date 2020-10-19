@@ -1,0 +1,16 @@
+Name: None - Score:3 Time: 6
+Name: F - Score:0 Time: 3
+Name: b - Score:1 Time: 7
+Name: Full - Score:51 Time: 50
+Name: None - Score:4 Time: 4
+Name: None - Score:11 Time: 7
+Name: None - Score:26 Time: 10
+Name: None - Score:4 Time: 7
+Name: None - Score:2 Time: 6
+Name: None - Score:17 Time: 25
+Name: None - Score:0 Time: 4
+Name: None - Score:6 Time: 3
+Name: None - Score:-20 Time: 4
+Name: None - Score:10 Time: 24
+Name: None - Score:-6 Time: 100
+Name: None - Score:0 Time: 3
