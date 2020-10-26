@@ -20,6 +20,7 @@ class ball():
         x - начальное положение мяча по горизонтали
         y - начальное положение мяча по вертикали
         """
+        self.delete = 0
         self.x = x
         self.y = y
         self.r = 10
@@ -34,7 +35,12 @@ class ball():
                 fill=self.color
         )
         self.live = 30
-
+    def delet(self):
+        if self.delete == 1:
+            canv.delete(self.id)
+            return 1
+        else:
+            return 0
     def set_coords(self):
         canv.coords(
                 self.id,
@@ -51,9 +57,22 @@ class ball():
         self.x и self.y с учетом скоростей self.vx и self.vy, силы гравитации, действующей на мяч,
         и стен по краям окна (размер окна 800х600).
         """
-        # FIXME
+        if self.x > 750:
+            self.vx *= -1
+        if self.y - self.vy > 495:
+            if self.vy < 0:
+                self.vy *= -1
+        self.vy -= 1
+        if self.y - self.vy > 496:
+            self.vy = 0
+        if abs(self.vy) == 0 and abs(self.vy) == 0:
+            self.delete = 1
         self.x += self.vx
         self.y -= self.vy
+        self.set_coords()
+        self.vx *= 0.985
+        self.vy *= 0.99
+
 
     def hittest(self, obj):
         """Функция проверяет сталкивалкивается ли данный обьект с целью, описываемой в обьекте obj.
@@ -64,14 +83,15 @@ class ball():
             Возвращает True в случае столкновения мяча и цели. В противном случае возвращает False.
         """
         # FIXME
-            return False
+        return False
 
 
 class gun():
-    self.f2_power = 10
-    self.f2_on = 0
-    self.an = 1
-    # self.id = canv.create_line(20,450,50,420,width=7) # FIXME: don't know how to set it...
+    def __init__(self):
+        self.f2_power = 10
+        self.f2_on = 0
+        self.an = 1
+        self.id = canv.create_line(20,450,50,420,width=7) # FIXME: don't know how to set it...
 
     def fire2_start(self, event):
         self.f2_on = 1
@@ -116,12 +136,13 @@ class gun():
 
 
 class target():
-    self.points = 0
-    self.live = 1
-    # FIXME: don't work!!! How to call this functions when object is created?
-    # self.id = canv.create_oval(0,0,0,0)
-    # self.id_points = canv.create_text(30,30,text = self.points,font = '28')
-    # self.new_target()
+    def __init__(self):
+        self.points = 0
+        self.live = 1
+        #FIXME: don't work!!! How to call this functions when object is created?
+        self.id = canv.create_oval(0,0,0,0)
+        self.id_points = canv.create_text(30,30,text = self.points,font = '28')
+        self.new_target()
 
     def new_target(self):
         """ Инициализация новой цели. """
@@ -166,6 +187,9 @@ def new_game(event=''):
                 canv.bind('<Button-1>', '')
                 canv.bind('<ButtonRelease-1>', '')
                 canv.itemconfig(screen1, text='Вы уничтожили цель за ' + str(bullet) + ' выстрелов')
+            if b.delet() == 1:
+
+                balls.remove(b)
         canv.update()
         time.sleep(0.03)
         g1.targetting()
