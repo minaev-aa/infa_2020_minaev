@@ -3,8 +3,6 @@ import tkinter as tk
 import math
 import time
 
-# print (dir(math))
-
 root = tk.Tk()
 fr = tk.Frame(root)
 root.geometry('800x600')
@@ -61,7 +59,7 @@ class ball():
         """
         if self.x + self.vx > 750 or self.x + self.vx < 0:
             self.vx *= -1
-        if self.y - self.vy > 495 or  self.y - self.vy < 20:
+        if self.y - self.vy > 495 or self.y - self.vy < 20:
             self.vy *= -1
         self.vy -= 1
         if self.y - self.vy > 496:
@@ -93,7 +91,7 @@ class gun():
         self.f2_power = 10
         self.f2_on = 0
         self.an = 1
-        self.id = canv.create_line(20, 450, 50, 420, width=7)  # FIXME: don't know how to set it...
+        self.id = canv.create_line(20, 450, 50, 420, width=7)
 
     def fire2_start(self, event):
         self.f2_on = 1
@@ -138,14 +136,12 @@ class gun():
 
 
 class target():
-
     def __init__(self):
-        self.step = rnd(-5 ,5)
+        self.step = rnd(-5, 5)
         self.kx = 1
         self.ky = 1
         self.points = 0
         self.live = 1
-        # FIXME: don't work!!! How to call this functions when object is created?
         self.id = canv.create_oval(0, 0, 0, 0)
         self.new_target()
 
@@ -170,8 +166,8 @@ class target():
                 self.x + self.r,
                 self.y + self.r
         )
-    def move(self):
 
+    def move(self):
         if self.x < 730 and self.x > 50:
             self.x += self.step * self.kx
         else:
@@ -194,7 +190,7 @@ point = canv.create_text(30, 30, text=int(points), font='28')
 
 
 def new_game(X, event=''):
-    global gun, t1, screen1, balls, bullet, targets, points
+    global screen1, balls, bullet, targets, points
     bullet = 0
     balls = []
     targets = []
@@ -216,7 +212,7 @@ def new_game(X, event=''):
                     i.hit()
                     targets.remove(i)
                     points += 1 / X
-            if len(targets)<= 0:
+            if len(targets) <= 0:
                 canv.bind('<Button-1>', '')
                 canv.bind('<ButtonRelease-1>', '')
                 canv.itemconfig(screen1, text='Вы уничтожили цели за ' + str(bullet) + ' выстрелов')
@@ -230,11 +226,10 @@ def new_game(X, event=''):
         g1.targetting()
         g1.power_up()
     canv.itemconfig(screen1, text='')
-    canv.delete(gun)
     root.after(new_game(X))
 
 
-X =  2
+X = 2
 new_game(X)
 
 tk.mainloop()
