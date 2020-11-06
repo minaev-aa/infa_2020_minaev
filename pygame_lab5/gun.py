@@ -3,6 +3,7 @@ import tkinter as tk
 import math
 import time
 
+
 root = tk.Tk()
 fr = tk.Frame(root)
 root.geometry('800x600')
@@ -13,7 +14,6 @@ canv.pack(fill=tk.BOTH, expand=1)
 class ball():
     def __init__(self, x=40, y=450):
         """ Конструктор класса ball
-
         Args:
         x - начальное положение мяча по горизонтали
         y - начальное положение мяча по вертикали
@@ -25,6 +25,9 @@ class ball():
         self.vx = 0
         self.vy = 0
         self.color = choice(['blue', 'green', 'red', 'brown'])
+        self.id = None
+        self.live = 30
+    def create(self):
         self.id = canv.create_oval(
                 self.x - self.r,
                 self.y - self.r,
@@ -32,8 +35,6 @@ class ball():
                 self.y + self.r,
                 fill=self.color
         )
-        self.live = 30
-
     def delet(self):
         if self.delete == 1:
             canv.delete(self.id)
@@ -84,8 +85,23 @@ class ball():
             return False
         else:
             return True
+class ball_boom(ball):
+    def __init__(self):
+        super().__init__()
 
+    def create(self):
+        self.id = canv.create_rectangle(
+                self.x - self.r,
+                self.y - self.r,
+                self.x + self.r,
+                self.y + self.r,
+                fill=self.color)
 
+    def hittestboom(self, obj):
+        if (self.x - obj.x) ** 2 + (self.y - obj.y) ** 2 + 10 > (self.r + obj.r) ** 2 :
+            return False
+        else:
+            return True
 class gun():
     def __init__(self):
         self.f2_power = 10
@@ -104,7 +120,8 @@ class gun():
         """
         global balls, bullet
         bullet += 1
-        new_ball = ball()
+        new_ball = choice( [ball(), ball_boom()])
+        new_ball.create()
         new_ball.r += 5
         self.an = math.atan((event.y - new_ball.y) / (event.x - new_ball.x))
         new_ball.vx = self.f2_power * math.cos(self.an)
@@ -137,22 +154,12 @@ class gun():
 
 class target():
     def __init__(self):
-        self.step = rnd(-5, 5)
+        self.step = rnd(-10, 10)
         self.kx = 1
         self.ky = 1
         self.points = 0
         self.live = 1
-        self.id = canv.create_oval(0, 0, 0, 0)
-        self.new_target()
-
-    def new_target(self):
-        """ Инициализация новой цели. """
-        x = self.x = rnd(600, 730)
-        y = self.y = rnd(50, 500)
-        r = self.r = rnd(2, 50)
-        color = self.color = 'red'
-        canv.coords(self.id, x - r, y - r, x + r, y + r)
-        canv.itemconfig(self.id, fill=color)
+        self.id = None
 
     def hit(self):
         """Попадание шарика в цель."""
@@ -168,6 +175,9 @@ class target():
         )
 
     def move(self):
+        """
+        Движение объекта
+        """
         if self.x < 730 and self.x > 50:
             self.x += self.step * self.kx
         else:
@@ -181,6 +191,37 @@ class target():
         self.set_coords()
 
 
+class krug(target):
+    def __init__(self):
+        super().__init__()
+        self.new_target1()
+
+    def new_target1(self):
+        """ Инициализация новой цели. """
+        x = self.x = rnd(600, 730)
+        y = self.y = rnd(50, 500)
+        r = self.r = rnd(2, 50)
+        color = self.color = 'red'
+        self.id = canv.create_oval(0, 0, 0, 0)
+        canv.coords(self.id, x - r, y - r, x + r, y + r)
+        canv.itemconfig(self.id, fill=color)
+
+
+class rect(target):
+    def __init__(self):
+        super().__init__()
+        self.new_target2()
+
+    def new_target2(self):
+    #     """ Инициализация новой цели. """
+        x = self.x = rnd(600, 730)
+        y = self.y = rnd(50, 500)
+        r = self.r = rnd(2, 50)
+        color = self.color = 'red'
+        self.id = canv.create_rectangle(0, 0, 0, 0)
+        canv.coords(self.id, x - r, y - r, x + r, y + r)
+        canv.itemconfig(self.id, fill=color)
+
 screen1 = canv.create_text(400, 300, text='', font='28')
 g1 = gun()
 bullet = 0
@@ -189,8 +230,9 @@ points = 0
 point = canv.create_text(30, 30, text=int(points), font='28')
 
 
-def new_game(X, event=''):
-    global screen1, balls, bullet, targets, points
+def new_game(X, Y, event=''):
+    global screen1, balls, bullet, targets, points, Bind
+    Bind = False
     bullet = 0
     balls = []
     targets = []
@@ -198,20 +240,29 @@ def new_game(X, event=''):
     canv.bind('<ButtonRelease-1>', g1.fire2_end)
     canv.bind('<Motion>', g1.targetting)
     for i in range(X):
-        targets.append(target())
-    for n in targets:
-        n.live = 1
+        targets.append(krug())
+    for i in range(Y):
+        targets.append(rect())
+    for m in targets:
+        m.live = 1
     while len(targets) != 0 or balls:
         for i in targets:
             i.move()
         for b in balls:
             b.move()
             for i in targets:
-                if b.hittest(i) and i.live:
-                    i.live = 0
-                    i.hit()
-                    targets.remove(i)
-                    points += 1 / X
+                if type(b) == type(ball_boom()):
+                    if b.hittestboom(i) and i.live:
+                        i.live = 0
+                        i.hit()
+                        targets.remove(i)
+                        points += 1 / (X + Y)
+                else:
+                    if b.hittest(i) and i.live:
+                        i.live = 0
+                        i.hit()
+                        targets.remove(i)
+                        points += 1 / (X + Y)
             if len(targets) <= 0:
                 canv.bind('<Button-1>', '')
                 canv.bind('<ButtonRelease-1>', '')
@@ -226,10 +277,11 @@ def new_game(X, event=''):
         g1.targetting()
         g1.power_up()
     canv.itemconfig(screen1, text='')
-    root.after(new_game(X))
+    root.after(new_game(X, Y))
 
 
+Y = 2
 X = 2
-new_game(X)
+new_game(X, Y)
 
 tk.mainloop()
