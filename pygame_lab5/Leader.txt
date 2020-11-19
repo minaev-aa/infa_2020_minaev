@@ -1,0 +1,16 @@
+ - Score:0 Time: 18
+Score:1 Time: 25
+Score:1 Time: 38
+ - Score:0 Time: 19
+ - Score:0 Time: 10
+ - Score:2 Time: 38
+ - Score:4 Time: 47
+ - Score:1 Time: 18
+ - Score:2 Time: 32
+ - Score:5 Time: 39
+ - Score:2 Time: 23
+ - Score:5 Time: 55
+ - Score:2 Time: 20
+ - Score:5 Time: 44
+ - Score:2 Time: 15
+ - Score:8 Time: 37

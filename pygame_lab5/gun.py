@@ -355,12 +355,10 @@ class bullt():
         canv.delete(self.id)
 
 
-
 screen1 = canv.create_text(400, 300, text='', font='28')
 bullet = 0
 balls = []
 points = 0
-
 
 
 def new_game(X, Y, event=''):
@@ -433,8 +431,10 @@ def new_game(X, Y, event=''):
         canv.delete("all")
         canv.create_text(400, 300, text='You lose', font='28')
         with open("Leader.txt", "a") as file:
-                file.write(" - Score:" + str(int(round(points))) + " Time: "
-                           + str(int(time.time() - start_time)) + "\n")
+            file.write(" - Score:" + str(int(round(points))) + " Time: "
+                       + str(int(time.time() - start_time)) + "\n")
+
+
 Y = 1
 X = 1
 new_game(X, Y)
